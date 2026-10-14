@@ -1,70 +1,95 @@
-# IAM Workshop for Beginners - Silver Oak University
+# AWS IAM Workshop for Beginners
 
 ## Overview
 
-This hands-on lab is designed for students at **Silver Oak University** to gain foundational experience with identity and access management in the cloud using **AWS IAM**.
+This hands-on workshop takes you from zero to confident with **AWS Identity and Access Management (IAM)**. You start with the simplest possible actions - signing in and asking "who am I?" - and build up stage by stage to roles, temporary credentials, and cross-identity access.
 
 In this workshop, you will learn how to:
-- Create IAM users, groups, and attach permissions
-- Understand the structure of IAM policies (JSON documents)
-- Write and attach a custom customer-managed policy
-- Manage IAM identities using AWS CLI commands
+- Sign in as an IAM user and inspect your own identity
+- Read and understand IAM policy JSON documents
+- Organize permissions using groups instead of per-user grants
+- Work with AWS managed, customer managed, and inline policies
+- Use an explicit `Deny` to build guardrails
+- Perform real tasks: start/stop EC2 instances, create S3 buckets and DynamoDB tables
 - Create IAM roles and attach them to EC2 instances
-- Retrieve temporary role credentials from instance metadata
-- Apply least-privilege best practices
-- Clean up IAM resources to keep your account secure
+- Use AWS STS to assume a role and obtain temporary credentials
+- Apply least-privilege thinking to every permission decision
+- Clean up resources to keep the account tidy and secure
+
+---
+
+## Who This Is For
+
+Anyone learning AWS IAM for the first time - students, bootcamp participants, new cloud engineers, or teams onboarding to AWS. No prior IAM experience is assumed. Each stage builds on the previous one.
+
+---
+
+## Important: How This Workshop Is Set Up
+
+**Your instructor (or account admin) creates one IAM user per participant, each with a console password and, where needed, access keys.** You do **not** create your own login. You sign in with the credentials you are given and complete the labs from there.
+
+A few resources are **pre-created** by the instructor so you can focus on IAM itself:
+- One or more **EC2 instances** already exist. You will **start and stop** them - you will **not** launch new ones.
+- An IAM **role** and **group structure** may be pre-staged for the later stages.
+
+Resources you **do** create yourself during the workshop:
+- **S3 buckets**
+- **DynamoDB tables**
+- Custom and inline **IAM policies** (where your permissions allow)
 
 ---
 
 ## Important: IAM is a Global Service
 
-**IMPORTANT:** IAM is a **global** service - users, groups, roles, and policies are not tied to a region. The IAM API endpoint lives in `us-east-1`.
+IAM is a **global** service - users, groups, roles, and policies are not tied to a region. The IAM API endpoint lives in `us-east-1`.
 
-For the EC2 resources used in **Stage 3**, make sure you are working within the **US-EAST-1 (N. Virginia)** region for consistency and service availability.
-
----
-
-## Access the Lab Environment
-
-Before starting the workshop, access the lab through CloudKida:
-
-1. Navigate to the CloudKida platform: **https://prod.cloudkida.com/**
-2. **Sign up** for a new account or **Login** if you already have one
-3. Open the IAM lab from your lab list (your instructor will share the direct lab link)
-4. Follow the lab instructions to get started with your AWS environment
-
----
-
-## Workshop Scenario
-
-You are a junior cloud administrator at a university lab team. A group of new students is joining the cloud program, and each one needs AWS console access with **only** the permissions required for their coursework - nothing more.
-
-Your job is to set up these identities properly: create users, group them by role, attach the right policies, and give applications running on EC2 their own permissions through IAM roles instead of hard-coded access keys.
+For the EC2, S3, and DynamoDB resources used in the later stages, use a **single consistent region** (the examples use `us-east-1`) so everyone sees the same resources.
 
 ---
 
 ## Workshop Structure
 
-This workshop is divided into **3 progressive stages**:
+This workshop is divided into **6 progressive stages**. Do them in order.
 
-### **Stage 1: IAM Users, Groups, and Policies**
-Learn the fundamentals of IAM by creating users and groups, attaching AWS managed policies, and writing your first custom policy through the AWS Management Console.
+### **Stage 1: Getting Started with IAM**
+The gentlest possible start. Sign in, look around the IAM console, run your first CLI command, and answer the question "who am I and what can I do?"
 
-**[→ Go to Stage 1](./Stage-1-IAM-Users-Groups/README.md)**
-
----
-
-### **Stage 2: Exploring IAM CLI Commands**
-Master AWS CLI commands to manage IAM identities programmatically. Learn to create, inspect, modify, and delete users, groups, policies, and access keys from the command line.
-
-**[→ Go to Stage 2](./Stage-2-IAM-CLI/README.md)**
+**[→ Go to Stage 1](./Stage-1-Getting-Started/README.md)**
 
 ---
 
-### **Stage 3: IAM Roles and Instance Profiles**
-Explore advanced IAM features including roles, trust policies, and instance profiles. Attach a role to an EC2 instance and read temporary credentials from the metadata service.
+### **Stage 2: Users, Groups, and Group Policies**
+Learn how permissions are organized. Explore users and groups, see how a group grants permissions to every member, and move users between groups.
 
-**[→ Go to Stage 3](./Stage-3-IAM-Roles/README.md)**
+**[→ Go to Stage 2](./Stage-2-Users-and-Groups/README.md)**
+
+---
+
+### **Stage 3: Policies Deep Dive**
+Understand the three kinds of policies - AWS managed, customer managed, and inline - and write your own. Use an explicit `Deny` and watch it override an `Allow`.
+
+**[→ Go to Stage 3](./Stage-3-Policies-Deep-Dive/README.md)**
+
+---
+
+### **Stage 4: Permissions in Action**
+Put permissions to work on real services. Start and stop a pre-existing EC2 instance, create an S3 bucket, and create a DynamoDB table - then see what happens when a permission is missing.
+
+**[→ Go to Stage 4](./Stage-4-Permissions-In-Action/README.md)**
+
+---
+
+### **Stage 5: IAM Roles and Instance Profiles**
+Give applications permissions without access keys. Create a role, attach it to an EC2 instance through an instance profile, and read the temporary credentials from instance metadata.
+
+**[→ Go to Stage 5](./Stage-5-Roles-and-Instance-Profiles/README.md)**
+
+---
+
+### **Stage 6: STS and Assume Role**
+The capstone. Use AWS STS to assume a role as an IAM user, receive temporary credentials, and understand the two-way trust that makes role assumption safe.
+
+**[→ Go to Stage 6](./Stage-6-STS-and-AssumeRole/README.md)**
 
 ---
 
@@ -72,18 +97,33 @@ Explore advanced IAM features including roles, trust policies, and instance prof
 
 Before starting this workshop, ensure you have:
 
-- AWS Account with administrator (or IAM full access) permissions
-- Access to AWS Management Console
+- An IAM **user name and console password** provided by your instructor
+- The **account sign-in URL** (e.g. `https://<account-alias>.signin.aws.amazon.com/console`)
 - Internet browser (Chrome, Firefox, Safari, or Edge)
-- A terminal with AWS CLI v2 installed (for Stage 2)
-- An SSH client and a running EC2 instance (for Stage 3)
+- **Access keys** for your user (needed from Stage 2 onward for CLI work)
+- A terminal with **AWS CLI v2** installed
 - A text editor for writing JSON policy documents
+
+### Install AWS CLI v2 (if needed)
+
+Check whether it is already installed:
+
+```bash
+aws --version
+```
+
+You should see output like:
+```
+aws-cli/2.x.x Python/3.x.x Linux/x.x.x
+```
+
+If not installed, follow the official guide: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
 ---
 
 ## Key IAM Concepts
 
-Before you start clicking, get familiar with the vocabulary. Every task in this workshop maps back to one of these.
+Get familiar with the vocabulary before you start. Every task in this workshop maps back to one of these.
 
 | Concept | What It Is |
 |---------|------------|
@@ -92,9 +132,12 @@ Before you start clicking, get familiar with the vocabulary. Every task in this 
 | **Role** | An identity assumed temporarily by a user, service, or application |
 | **Policy** | A JSON document that allows or denies specific actions |
 | **AWS Managed Policy** | A pre-built policy maintained by AWS (e.g. `ReadOnlyAccess`) |
-| **Customer Managed Policy** | A policy you write and maintain yourself |
+| **Customer Managed Policy** | A reusable policy you write and maintain yourself |
+| **Inline Policy** | A policy embedded directly in a single user, group, or role |
+| **Explicit Deny** | A `Deny` statement that overrides any `Allow` |
 | **Trust Policy** | Attached to a role; defines **who** is allowed to assume it |
 | **Instance Profile** | A container that lets an EC2 instance use an IAM role |
+| **STS** | Security Token Service - issues temporary credentials |
 | **ARN** | Amazon Resource Name - the unique ID of every AWS resource |
 
 ### Anatomy of an IAM Policy
@@ -119,103 +162,25 @@ Before you start clicking, get familiar with the vocabulary. Every task in this 
 - **Action** - The API calls being controlled, in `service:Operation` form
 - **Resource** - The ARN(s) the statement applies to
 
-**Remember:** Everything in IAM is **denied by default**. An explicit `Deny` always wins over an `Allow`.
+### The Golden Rules of IAM Evaluation
 
----
-
-## Quick Start: Pre-Lab Setup
-
-### 1. **Set an Account Alias (Optional but Recommended)**
-
-By default, IAM users sign in with your 12-digit account ID. An account alias gives them a friendlier URL.
-
-**Steps:**
-
-1. Navigate to the **IAM Console**: https://console.aws.amazon.com/iam/
-2. On the **Dashboard**, find **AWS Account** on the right side
-3. Next to **Account Alias**, click **Create**
-4. Enter an alias, for example: `silveroak-cloudlab`
-5. Click **Create alias**
-
-Your sign-in URL becomes:
-```
-https://silveroak-cloudlab.signin.aws.amazon.com/console
-```
-
-**Save this URL** - your students will need it in Stage 1.
-
----
-
-### 2. **Review the IAM Dashboard**
-
-Take a minute to look around before creating anything.
-
-**Steps:**
-
-1. In the IAM Console, look at the left navigation pane:
-   - **User groups** - collections of users
-   - **Users** - individual identities
-   - **Roles** - identities assumed temporarily
-   - **Policies** - permission documents
-   - **Identity providers**, **Account settings**, **Access reports**
-2. On the Dashboard, check the **Security recommendations** panel
-3. Note the current number of users, groups, roles, and policies in the account
-
----
-
-### 3. **Verify Your AWS CLI Identity (Needed for Stage 2)**
-
-Confirm your CLI is configured and you know which identity you are using.
-
-```bash
-aws --version
-```
-
-You should see output like:
-```
-aws-cli/2.x.x Python/3.x.x Linux/x.x.x
-```
-
-Now check who you are:
-
-```bash
-aws sts get-caller-identity
-```
-
-**Expected Output:**
-```json
-{
-    "UserId": "AIDEXAMPLEUSERID",
-    "Account": "123456789012",
-    "Arn": "arn:aws:iam::123456789012:user/your-admin-user"
-}
-```
-
-If this command fails, configure your credentials:
-
-```bash
-aws configure
-```
-
-When prompted, enter:
-- **AWS Access Key ID:** Your AWS access key
-- **AWS Secret Access Key:** Your AWS secret key
-- **Default region name:** `us-east-1`
-- **Default output format:** `json`
+1. **Everything is denied by default.** A brand-new identity can do nothing.
+2. **An `Allow` opens up an action.** Permissions are additive across all attached policies.
+3. **An explicit `Deny` always wins.** If any policy denies an action, it is blocked - no matter how many Allows exist.
 
 ---
 
 ## Security Best Practices
 
-Carry these habits through every stage of the workshop:
+Carry these habits through every stage:
 
-- **Never use the root account** for daily work - create an IAM user instead
-- **Enable MFA** on the root account and all privileged users
-- **Grant least privilege** - start with no permissions and add only what is needed
+- **Never use the root account** for daily work
+- **Enable MFA** on privileged users
+- **Grant least privilege** - start with nothing and add only what is needed
 - **Prefer roles over access keys** for anything running on AWS compute
-- **Rotate access keys** regularly and delete unused ones
-- **Use groups** to assign permissions, not per-user policy attachments
-- **Review Access Advisor** to find and remove unused permissions
+- **Use groups** to assign permissions, not per-user attachments
+- **Rotate access keys** and delete unused ones
+- **Never commit access keys** to source control
 
 ---
 
@@ -224,30 +189,29 @@ Carry these habits through every stage of the workshop:
 - **AWS IAM Documentation:** https://docs.aws.amazon.com/iam/
 - **IAM Policy Reference:** https://docs.aws.amazon.com/service-authorization/latest/reference/
 - **AWS CLI IAM Reference:** https://docs.aws.amazon.com/cli/latest/reference/iam/
+- **AWS STS Reference:** https://docs.aws.amazon.com/cli/latest/reference/sts/
 - **IAM Policy Simulator:** https://policysim.aws.amazon.com/
-- **Troubleshooting Access Denied:** Read the error message carefully - it names the action and the ARN that was blocked
+- **Troubleshooting Access Denied:** Read the error carefully - it names the exact action and ARN that was blocked
 
 ---
 
 ## Lab Cleanup
 
-After completing the workshop, **remember to clean up resources** to keep your account tidy and secure:
+After completing the workshop, clean up any resources **you** created to keep the account tidy:
 
-- Delete IAM users created during the lab
-- Delete access keys and login profiles
-- Delete IAM groups
+- Delete S3 buckets and DynamoDB tables you created
 - Detach and delete customer managed policies
-- Remove roles and instance profiles
-- Terminate any EC2 instances launched in Stage 3
+- Remove inline policies you added
+- Remove roles and instance profiles you created
+- Stop any EC2 instances you started
 
-Each stage includes its own cleanup section with exact steps.
-
----
-
-**Workshop Created by:** CloudKida Labs  
-**Last Updated:** October 2026  
-**Target Audience:** Beginner Cloud Engineers at Silver Oak University
+Each stage includes its own cleanup section with exact steps. Resources your instructor pre-created should be left in place unless told otherwise.
 
 ---
 
-**Ready to begin? Start with [Stage 1: IAM Users, Groups, and Policies →](./Stage-1-IAM-Users-Groups/README.md)**
+**Workshop Type:** Beginner → Intermediate, hands-on  
+**Last Updated:** October 2026
+
+---
+
+**Ready to begin? Start with [Stage 1: Getting Started with IAM →](./Stage-1-Getting-Started/README.md)**
